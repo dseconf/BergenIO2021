@@ -6,11 +6,11 @@ Link to the course page: [https://www.nhh.no/en/courses/empirical-io-dynamic-str
 Please, fill in student information form: [https://tinyurl.com/bergen2021](https://tinyurl.com/bergen2021)
 
 
-Accept the GitHub Classroom assignment to submit your code to Anders for **the tournament**:
+<!-- Accept the GitHub Classroom assignment to submit your code to Anders for **the tournament**:
 [https://classroom.github.com/a/qHIVxVAm](https://classroom.github.com/a/qHIVxVAm)
 
 - This will create your personal repository to develop player code that we will be able to collect and put into a tournament
-
+ -->
 
 ## Lecturers
 
