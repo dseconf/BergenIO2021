@@ -1,0 +1,1509 @@
+
+ make.py started: 2016-09-19 17:28:58 /Users/mrsull/Desktop/trans/matlab/trans 
+
+
+Path: gslab_make
+URL: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/python/gslab_make
+Repository Root: https://econ-gentzkow-svn.stanford.edu/repos/main
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 35081
+Node Kind: directory
+Last Changed Author: jwchoi2
+Last Changed Rev: 33502
+Last Changed Date: 2016-02-07 17:40:17 -0800 (Sun, 07 Feb 2016)
+
+
+ get_externals.py started: 2016-09-19 17:28:59 /Users/mrsull/Desktop/trans/matlab/trans
+
+ Input was: "35000	%svn%/lib/third_party/matlab_xunit/	*	/lib/third_party/matlab_xunit/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/third_party/matlab_xunit/ @35000 exported to external/lib/third_party/matlab_xunit/.
+
+ Input was: "35000	%svn%/lib/matlab/gslab_model/	*	/matlab/gslab_model/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/matlab/gslab_model/ @35000 exported to external/matlab/gslab_model/.
+
+ Input was: "35050	%svn%/lib/matlab/gslab_mle/	*	/matlab/gslab_mle/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/matlab/gslab_mle/ @35050 exported to external/matlab/gslab_mle/.
+
+ Input was: "35000	%svn%/lib/matlab/numerical_derivatives/	*	/matlab/numerical_derivatives/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/matlab/numerical_derivatives/ @35000 exported to external/matlab/numerical_derivatives/.
+
+ Input was: "35000	%svn%/lib/c/gslab_misc/	*	/matlab/gslab_misc_c/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/c/gslab_misc/ @35000 exported to external/matlab/gslab_misc_c/.
+
+ Input was: "35000	%svn%/lib/stata/gslab_misc/	*	/stata/gslab_misc/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/stata/gslab_misc/ @35000 exported to external/stata/gslab_misc/.
+
+ Input was: "35000	%svn%/lib/third_party/nwspgr/	*	/matlab/nwspgr/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/third_party/nwspgr/ @35000 exported to external/matlab/nwspgr/.
+
+ Input was: "35000	%svn%/lib/matlab/gslab_model/data	*	/data/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/matlab/gslab_model/data/ @35000 exported to external/data/.
+
+ get_externals.py ended: 2016-09-19 17:29:08
+
+ get_externals.py started: 2016-09-19 17:29:08 /Users/mrsull/Desktop/trans/matlab/trans
+Note: not using filename externals.txt.
+
+
+ Input was: "35000	%svn%/lib/matlab/gslab_misc/	*	/matlab/gslab_misc/	""""".
+SVN command passed: https://econ-gentzkow-svn.stanford.edu/repos/main/trunk/lib/matlab/gslab_misc/ @35000 exported to ./depend/matlab/gslab_misc/.
+
+ get_externals.py ended: 2016-09-19 17:29:09
+
+
+Execute:  statamp -e do "stata_for_testing.do"
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   14.1   Copyright 1985-2015 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+Unlimited-user 4-core Stata network license expires 21 Jul 2017:
+       Serial number:  501409012939
+         Licensed to:  SIEPR
+                       Stanford University
+
+Notes:
+      1.  Stata is running in batch mode.
+      2.  Unicode is supported; see help unicode_advice.
+      3.  More than 2 billion observations are allowed; see help obs_advice.
+      4.  Maximum number of variables is set to 5000; see help set_maxvar.
+
+
+running /Applications/Stata/profile.do ...
+
+. do stata_for_testing.do 
+
+. version 14
+
+. set more off
+
+. adopath + ../../external/stata/gslab_misc/ado
+  [1]  (BASE)      "/Applications/Stata/ado/base/"
+  [2]  (SITE)      "/Applications/Stata/ado/site/"
+  [3]              "."
+  [4]  (PERSONAL)  "~/Library/Application Support/Stata/ado/personal/"
+  [5]  (PLUS)      "~/Library/Application Support/Stata/ado/plus/"
+  [6]  (OLDPLACE)  "~/ado/"
+  [7]              "../../external/stata/gslab_misc/ado"
+
+. preliminaries
+
+. 
+. program main
+  1.     create_data
+  2.     estimate_model
+  3.     write_results
+  4. end
+
+. 
+. program create_data
+  1.     set obs 15
+  2. 
+.     gen y = runiform()
+  3.     gen x1 = runiform()
+  4.     gen x2 = runiform()
+  5. end
+
+. 
+. program estimate_model
+  1.     gmm (y - {b0} - {b1}*x1), inst(x1 x2) onestep vce(unadj)
+  2.     
+.     mat jacobian = e(G)
+  3.     mat weight = e(W)
+  4.     mat vcov_mom = syminv(weight)
+  5. 
+.     mat stata_vcov_param = invsym(jacobian'*weight*jacobian)
+  6. end
+
+. 
+. program write_results
+  1.     foreach m in jacobian vcov_mom weight stata_vcov_param {
+  2.         clear
+  3.         svmat `m'
+  4.         export delimited using "./`m'.csv", novarnames replace
+  5.     } 
+  6. end
+
+. 
+. * Execute
+. main
+number of observations (_N) was 0, now 15
+
+Step 1
+Iteration 0:   GMM criterion Q(b) =  .16219937  
+Iteration 1:   GMM criterion Q(b) =  .00036908  
+Iteration 2:   GMM criterion Q(b) =  .00036908  
+
+GMM estimation 
+
+Number of parameters =   2
+Number of moments    =   3
+Initial weight matrix: Unadjusted                 Number of obs   =         15
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         /b0 |   .3931209   .1541847     2.55   0.011     .0909245    .6953173
+         /b1 |   .0160552   .2458405     0.07   0.948    -.4657834    .4978938
+------------------------------------------------------------------------------
+Instruments for equation 1: x1 x2 _cons
+number of observations will be reset to 3
+Press any key to continue, or Break to abort
+number of observations (_N) was 0, now 3
+file ./jacobian.csv saved
+number of observations will be reset to 3
+Press any key to continue, or Break to abort
+number of observations (_N) was 0, now 3
+file ./vcov_mom.csv saved
+number of observations will be reset to 3
+Press any key to continue, or Break to abort
+number of observations (_N) was 0, now 3
+file ./weight.csv saved
+number of observations will be reset to 2
+Press any key to continue, or Break to abort
+number of observations (_N) was 0, now 2
+file ./stata_vcov_param.csv saved
+
+. 
+end of do-file
+
+
+Execute:  matlab -r run_all_tests -logfile run_all_tests.log -nosplash -nodesktop
+[?1h=
+                            < M A T L A B (R) >
+                  Copyright 1984-2016 The MathWorks, Inc.
+                   R2016a (9.0.0.341360) 64-bit (maci64)
+                             February 11, 2016
+
+[Warning: Duplicate directory name:
+/Applications/MATLAB_R2016a.app/toolbox/matlab/external/interfaces/webservices/wsdl] 
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+
+	Academic License
+
+Test suite: /Users/mrsull/Desktop/trans/matlab/trans/test
+19-Sep-2016 17:29:28
+
+Starting test run with 8 test cases.
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 20)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 20)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 21)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 21)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 42)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 42)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 29)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 29)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 37)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 37)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sample_sensitivity (line 14)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sample_sensitivity (line 14)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sample_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sample_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sample_sensitivity (line 30)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sample_sensitivity (line 30)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 10)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 10)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 15)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 15)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 23)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 23)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 27)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 27)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sufficiency (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sufficiency (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sufficiency (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sufficiency (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_vcov (line 11)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_vcov (line 11)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.
+PASSED in 13.525 seconds.
+[?1l>
+                            < M A T L A B (R) >
+                  Copyright 1984-2016 The MathWorks, Inc.
+                   R2016a (9.0.0.341360) 64-bit (maci64)
+                             February 11, 2016
+
+[Warning: Duplicate directory name:
+/Applications/MATLAB_R2016a.app/toolbox/matlab/external/interfaces/webservices/wsdl] 
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+
+	Academic License
+
+Test suite: /Users/mrsull/Desktop/trans/matlab/trans/test
+19-Sep-2016 17:29:28
+
+Starting test run with 8 test cases.
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 20)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 20)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 21)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 21)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_conditional_sensitivity (line 42)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_conditional_sensitivity (line 42)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_counterfactual_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_counterfactual_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 29)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 29)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 37)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 37)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_partial_sufficiencies (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_partial_sufficiencies (line 38)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sample_sensitivity (line 14)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sample_sensitivity (line 14)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sample_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sample_sensitivity (line 25)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sample_sensitivity (line 30)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sample_sensitivity (line 30)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 10)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 10)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 15)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 15)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 23)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 23)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sensitivity (line 27)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sensitivity (line 27)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sufficiency (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sufficiency (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_sufficiency (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_sufficiency (line 28)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 17)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 18)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 19)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_transform_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_transform_sensitivity (line 24)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In assertElementsAlmostEqual (line 33)
+  In test_get_vcov (line 11)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+[Warning: NARGCHK will be removed in a future release. Use NARGINCHK or
+NARGOUTCHK instead.] 
+[> In xunit.utils.parseFloatAssertInputs (line 12)
+  In xunit.utils.compareFloats (line 60)
+  In assertElementsAlmostEqual (line 51)
+  In test_get_vcov (line 11)
+  In FunctionHandleTestCase/runTestCase (line 112)
+  In TestCase/run (line 74)
+  In TestSuite/run (line 85)
+  In TestSuite/run (line 85)
+  In runtests (line 126)
+  In run_all_tests (line 7)] 
+.
+PASSED in 13.525 seconds.
+
+ make.py ended: 2016-09-19 17:29:44

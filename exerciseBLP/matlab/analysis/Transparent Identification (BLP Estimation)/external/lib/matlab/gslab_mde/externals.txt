@@ -1,0 +1,4 @@
+rev	dir	file	outdir	outfile	notes
+23161	%svn%/lib/third_party/matlab_xunit/	*	./matlab_xunit/	""""
+23161	%svn%/lib/stata/gslab_misc/ado/	*	./gslab_misc/	""""
+23161	%svn%/lib/matlab/gslab_model/data	*	./data/	""""

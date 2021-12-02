@@ -1,0 +1,12 @@
+/home/jamesl/gauss/ownsrc/print.arc
+   printmat printan printna
+/home/jamesl/gauss/ownsrc/concat.arc
+   concath concatv
+/home/jamesl/gauss/ownsrc/mystat.arc
+   corr cov ols twosls exp2
+/home/jamesl/gauss/ownsrc/mydata.arc
+   quarters wtave
+/home/jamesl/gauss/ownsrc/ownopt.arc
+   amoeba golden bracket
+
+

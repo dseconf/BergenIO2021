@@ -1,0 +1,81 @@
+
+ make.py started: 2015-07-14 04:50:41 C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\code 
+
+
+Path: gslab_make
+URL: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/python/gslab_make
+Relative URL: ^/trunk/lib/python/gslab_make
+Repository Root: http://gsbhmg01.chicagobooth.edu/svn
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 31860
+Node Kind: directory
+Last Changed Author: athomas6
+Last Changed Rev: 31413
+Last Changed Date: 2015-05-20 10:18:54 -0500 (Wed, 20 May 2015)
+
+
+ get_externals.py started: 2015-07-14 04:50:42 C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\code
+
+ Input was: "31819	%svn%/lib/third_party/blp_1999	*	./lib/blp_1999/	""""	".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/blp_1999/ @31819 exported to ../external/./lib/blp_1999/.
+
+ get_externals.py ended: 2015-07-14 04:50:42
+
+
+Execute:  tgauss -b build.gau
+
+GAUSS 13.1.5 (Aug  6 2013, 3364) 64-bit
+(C)Copyright 1984-2012 Aptech Systems, Inc.
+All Rights Reserved Worldwide.
+
+
+Job: build.gau ( C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\code )
+Tue Jul 14 04:50:43 2015
+
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(2) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(2) : error G0089 : 'y' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(13) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(13) : error G0089 : 'y' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(475) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(475) : error G0089 : 'y' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(482) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(587) : error G0089 : 'parm' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(5) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(15) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(30) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(30) : error G0089 : 'y' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(30) : error G0089 : 'printvar' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(47) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(47) : error G0089 : 'y' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(47) : error G0089 : 'z' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(47) : error G0089 : 'printvar' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(68) : error G0089 : 'y' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(68) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(68) : error G0089 : 'z' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(68) : error G0089 : 'printvar' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(102) : error G0089 : 'b' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(102) : error G0089 : 'se' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(102) : error G0089 : 'printvar' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(128) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(3) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C 
+ 4:50:43
+ 7/14/15
+nfind        10.000000 
+onelam        1.0000000 
+dfiflag        1.0000000 
+ciflag        1.0000000 
+conduct       0.00000000 
+loaddraw       0.00000000 
+loading data....
+creating needed variables ...
+creating stuff to compute correct s.e.'s ....
+log sharevec computed
+Program terminated with END
+:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(3) : error G0089 : 'mask' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(3) : error G0089 : 'width' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(3) : error G0089 : 'prec' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(62) : error G0089 : 'x' : WARNING : Duplicate definition of local
+C:\Allen\Dropbox\GSLab\Transparent Identification (BLP Extract Data)\external\li(72) : error G0089 : 'x' : WARNING : Duplicate definition of local
+
+ make.py ended: 2015-07-14 04:50:43

@@ -1,0 +1,11 @@
+rev	dir	file	outdir	outfile	notes
+31866	%svn%/lib/matlab/blp	*	./lib/matlab/blp/	""""	
+31866	%svn%/lib/matlab/gslab_mde/	*	./lib/matlab/gslab_mde/	""""
+31866	%svn%/lib/matlab/gslab_model/	*	./lib/matlab/gslab_model/	""""
+31866	%svn%/lib/matlab/gslab_misc	*	./lib/matlab/gslab_misc	""""	
+31866	%svn%/lib/matlab/trans	*	./lib/matlab/trans	""""	
+31866	%svn%/lib/stata/gslab_misc	*	./lib/stata/gslab_misc	""""	
+31866	%svn%/lib/third_party/stata_tools	*	./lib/third_party/stata_tools	""""
+31866	%svn%/analysis/Transparent Identification (BLP Estimation)/output	blp_estimation.mat	./data/	""""
+31866	%svn%/derived/Transparent Identification (BLP Extract Data)/output	blp_1999_data.csv	./data/	""""
+31866	%svn%/derived/Transparent Identification (BLP Extract Unobservables)/output	*	./data/	""""	

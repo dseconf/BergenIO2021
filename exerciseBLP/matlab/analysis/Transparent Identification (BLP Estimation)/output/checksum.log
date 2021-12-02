@@ -1,0 +1,35 @@
+Parameter estimates for model with (sigma >= 0), BLP (1999) unobservables:
+ 
+=============================================
+GMM first stage estimates: 
+---------------------------------------------
+Objective function: 0.44695
+Parameter estimates: 
+    'sigma_const'    [ 2.7398]
+    'sigma_hpwt'     [ 3.0226]
+    'sigma_air'      [ 3.8619]
+    'sigma_mpd'      [ 0.4886]
+    'sigma_space'    [ 2.0423]
+    'alpha_price'    [43.9575]
+
+---------------------------------------------
+ 
+GMM second stage estimates: 
+---------------------------------------------
+Objective function: 0.42716
+Parameter estimates: 
+    'sigma_const'    [ 2.5221]
+    'sigma_hpwt'     [ 3.5237]
+    'sigma_air'      [ 4.1667]
+    'sigma_mpd'      [ 0.3929]
+    'sigma_space'    [ 1.9367]
+    'alpha_price'    [42.8702]
+
+---------------------------------------------
+ 
+---------------------------------------------
+Inner loop tolerance: 1e-14
+Importance sampling: 1
+Number of unobservables: 200
+=============================================
+ 

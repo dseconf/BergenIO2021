@@ -1,0 +1,56 @@
+
+ make.py started: 2014-02-25 17:16:07 C:\Users\mwong4\Documents\GSLAB\trunk\lib\matlab\numerical_derivatives 
+
+
+Path: gslab_make
+URL: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/python/gslab_make
+Repository Root: http://gsbhmg01.chicagobooth.edu/svn
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 24980
+Node Kind: directory
+Last Changed Author: azhang2
+Last Changed Rev: 24565
+Last Changed Date: 2014-01-29 16:20:06 -0600 (Wed, 29 Jan 2014)
+
+
+ get_externals.py started: 2014-02-25 17:16:08 C:\Users\mwong4\Documents\GSLAB\trunk\lib\matlab\numerical_derivatives
+
+ Input was: "22384	%svn%/lib/third_party/matlab_xunit/	*	./matlab_xunit/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/matlab_xunit/ @22384 exported to ./external/./matlab_xunit/.
+
+ get_externals.py ended: 2014-02-25 17:16:12
+
+ get_externals.py started: 2014-02-25 17:16:12 C:\Users\mwong4\Documents\GSLAB\trunk\lib\matlab\numerical_derivatives
+Note: not using filename externals.txt.
+
+
+ Input was: "22384	%svn%/lib/matlab/gslab_misc/	*	./gslab_misc/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_misc/ @22384 exported to ./depend/./gslab_misc/.
+
+ get_externals.py ended: 2014-02-25 17:16:17
+
+
+Execute:  matlab -r run_all_tests -logfile run_all_tests.log -nosplash -minimize -wait
+[Warning: Found 1 pre-existing communicating job(s) created by matlabpool that
+are running. You can use 'matlabpool close force local' to remove all jobs
+created by matlabpool.] 
+[> In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\distcomp\@distcomp\@interactiveclient\pRemoveOldJobs.m',51,1)">distcomp.interactiveclient.pRemoveOldJobs at 51</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\distcomp\@distcomp\@interactiveclient\start.m',61,1)">distcomp.interactiveclient.start at 61</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\distcomp\cluster\+parallel\+internal\+cluster\MatlabpoolHelper.m',306,1)">MatlabpoolHelper>MatlabpoolHelper.doOpen at 306</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\distcomp\cluster\+parallel\+internal\+cluster\MatlabpoolHelper.m',137,1)">MatlabpoolHelper>MatlabpoolHelper.doMatlabpool at 137</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\distcomp\matlabpool.m',139,1)">matlabpool at 139</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\local\startup.m',1,1)">startup at 1</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2012b\toolbox\local\matlabrc.m',202,1)">matlabrc at 202</a>] 
+Starting matlabpool using the 'local' profile ... connected to 8 workers.
+Test suite: C:\Users\mwong4\Documents\GSLAB\trunk\lib\matlab\numerical_derivatives\test
+25-Feb-2014 17:16:51
+
+Starting test run with 2 test cases.
+..
+PASSED in 0.167 seconds.
+try matlabpool close
+Sending a stop signal to all the workers ... stopped.
+catch
+end
+
+ make.py ended: 2014-02-25 17:16:57

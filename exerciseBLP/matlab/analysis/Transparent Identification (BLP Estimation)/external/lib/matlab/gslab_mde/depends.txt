@@ -1,0 +1,6 @@
+rev	dir	file	outdir	outfile	notes
+22514	%svn%/lib/c/gslab_misc/	*	./gslab_misc_c/	""""
+22514	%svn%/lib/matlab/gslab_misc/	*	./gslab_misc/	""""
+22514	%svn%/lib/matlab/numerical_derivatives/	*	./numerical_derivatives/	""""
+22514	%svn%/lib/third_party/nwspgr/	*	./nwspgr/	""""
+22514	%svn%/lib/matlab/gslab_model/	*	./gslab_model/	""""

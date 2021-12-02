@@ -1,0 +1,7 @@
+rev	dir	file	outdir	outfile	notes
+35000	%svn%/lib/third_party/matlab_xunit/	*	./lib/third_party/matlab_xunit/	""""
+35000	%svn%/raw/BLP (1995)/orig	*	./data/	""""
+35000	%svn%/derived/Transparent Identification (BLP Extract Data)/output	*	./data/	""""	
+35000	%svn%/derived/Transparent Identification (BLP Extract Unobservables)/output	*	./data/	""""
+35000	%svn%/derived/Transparent Identification (BLP Verify Elasticity)/output	*	./data/	""""
+35000	%svn%/derived/Transparent Identification (BLP Verify Objective)/output	*	./data/	""""

@@ -1,0 +1,179 @@
+
+ make.py started: 2015-02-10 14:54:20 C:\Users\zqian\Documents\lib\matlab\trans 
+
+
+Path: gslab_make
+URL: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/python/gslab_make
+Repository Root: http://gsbhmg01.chicagobooth.edu/svn
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 30411
+Node Kind: directory
+Last Changed Author: mwong4
+Last Changed Rev: 27564
+Last Changed Date: 2014-08-05 17:20:16 -0500 (Tue, 05 Aug 2014)
+
+
+ get_externals.py started: 2015-02-10 14:54:21 C:\Users\zqian\Documents\lib\matlab\trans
+
+ Input was: "22514	%svn%/lib/third_party/matlab_xunit/	*	./lib/third_party/matlab_xunit/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/matlab_xunit/ @22514 exported to ./external/./lib/third_party/matlab_xunit/.
+
+ Input was: "22514	%svn%/lib/matlab/gslab_model/	*	./matlab/gslab_model/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_model/ @22514 exported to ./external/./matlab/gslab_model/.
+
+ Input was: "28228	%svn%/lib/matlab/gslab_mle/	*	./matlab/gslab_mle/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_mle/ @28228 exported to ./external/./matlab/gslab_mle/.
+
+ Input was: "22514	%svn%/lib/matlab/numerical_derivatives/	*	./matlab/numerical_derivatives/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/numerical_derivatives/ @22514 exported to ./external/./matlab/numerical_derivatives/.
+
+ Input was: "22514	%svn%/lib/c/gslab_misc/	*	./matlab/gslab_misc_c/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/c/gslab_misc/ @22514 exported to ./external/./matlab/gslab_misc_c/.
+
+ Input was: "16195	%svn%/lib/stata/gslab_misc/	*	./stata/gslab_misc/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/stata/gslab_misc/ @16195 exported to ./external/./stata/gslab_misc/.
+
+ Input was: "22514	%svn%/lib/third_party/nwspgr/	*	./matlab/nwspgr/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/nwspgr/ @22514 exported to ./external/./matlab/nwspgr/.
+
+ Input was: "22514	%svn%/lib/matlab/gslab_model/data	*	./data/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_model/data/ @22514 exported to ./external/./data/.
+
+ get_externals.py ended: 2015-02-10 14:54:48
+
+ get_externals.py started: 2015-02-10 14:54:48 C:\Users\zqian\Documents\lib\matlab\trans
+Note: not using filename externals.txt.
+
+
+ Input was: "22514	%svn%/lib/matlab/gslab_misc/	*	./matlab/gslab_misc/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_misc/ @22514 exported to ./depend/./matlab/gslab_misc/.
+
+ get_externals.py ended: 2015-02-10 14:54:50
+
+
+Execute:  %STATAEXE% /e do "stata_for_testing.do"
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+22-user 8-core Stata network license expires 30 Jun 2015:
+       Serial number:  501306001307
+         Licensed to:  Shapiro/Gentzkow
+                       Booth
+
+Notes:
+      1.  (/v# option or -set maxvar-) 5000 maximum variables
+      2.  Stata running in batch mode
+
+
+running C:\Program Files (x86)\Stata13\profile.do ...
+
+. do stata_for_testing.do 
+
+. version 12
+
+. set more off
+
+. adopath + ../../external/stata/gslab_misc/ado
+  [1]  (BASE)      "C:\Program Files (x86)\Stata13\ado\base/"
+  [2]  (SITE)      "C:\Program Files (x86)\Stata13\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "c:\ado\personal/"
+  [5]  (PLUS)      "c:\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "../../external/stata/gslab_misc/ado"
+
+. preliminaries
+
+. 
+. program main
+  1.     create_data
+  2.     estimate_model
+  3.     write_results
+  4. end
+
+. 
+. program create_data
+  1.     set obs 15
+  2. 
+.     gen y = runiform()
+  3.     gen x1 = runiform()
+  4.     gen x2 = runiform()
+  5. end
+
+. 
+. program estimate_model
+  1.     gmm (y - {b0} - {b1}*x1), inst(x1 x2) onestep vce(unadj)
+  2.     
+.     mat jacobian = e(G)
+  3.     mat weight = e(W)
+  4.     mat vcov_mom = syminv(weight)
+  5. 
+.     mat stata_vcov_param = invsym(jacobian'*weight*jacobian)
+  6. end
+
+. 
+. program write_results
+  1.     foreach m in jacobian vcov_mom weight stata_vcov_param {
+  2.         clear
+  3.         svmat `m'
+  4.         export delimited using "./`m'.csv", novarnames replace
+  5.     } 
+  6. end
+
+. 
+. * Execute
+. main
+obs was 0, now 15
+
+Step 1
+Iteration 0:   GMM criterion Q(b) =  .26481351  
+Iteration 1:   GMM criterion Q(b) =   .0104511  
+Iteration 2:   GMM criterion Q(b) =   .0104511  
+
+GMM estimation 
+
+Number of parameters =   2
+Number of moments    =   3
+Initial weight matrix: Unadjusted                     Number of obs  =      15
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         /b0 |   .3220288   .1729551     1.86   0.063     -.016957    .6610146
+         /b1 |   .3033379   .2662431     1.14   0.255     -.218489    .8251647
+------------------------------------------------------------------------------
+Instruments for equation 1: x1 x2 _cons
+number of observations will be reset to 3
+Press any key to continue, or Break to abort
+obs was 0, now 3
+file ./jacobian.csv saved
+number of observations will be reset to 3
+Press any key to continue, or Break to abort
+obs was 0, now 3
+file ./vcov_mom.csv saved
+number of observations will be reset to 3
+Press any key to continue, or Break to abort
+obs was 0, now 3
+file ./weight.csv saved
+number of observations will be reset to 2
+Press any key to continue, or Break to abort
+obs was 0, now 2
+file ./stata_vcov_param.csv saved
+
+. 
+end of do-file
+
+
+Execute:  matlab -r run_all_tests -logfile run_all_tests.log -nosplash -minimize -wait
+Starting matlabpool using the 'local' profile ... connected to 8 workers.
+Sending a stop signal to all the workers ... stopped.
+
+ make.py ended: 2015-02-10 14:55:26

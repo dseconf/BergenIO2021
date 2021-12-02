@@ -1,0 +1,10 @@
+new;
+
+library blp;
+inputdir = "../external/lib/blp_1999/";
+load path=^inputdir;
+save path=../temp/;
+
+run -r "base.prg";
+
+end;

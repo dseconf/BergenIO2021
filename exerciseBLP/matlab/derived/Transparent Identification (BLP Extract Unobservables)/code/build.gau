@@ -1,0 +1,52 @@
+new;
+
+library blp;
+inputdir = "../external/lib/blp_1999/";
+load path=^inputdir;
+save path=../temp/;
+
+clear data, meanly_input, sigly_input, nfind_input, kseed2_input, stub, mean, sd, year;
+
+translate_95_to_99 = {6 1 2 5 3 4};
+/* BLP (1999) guesses */
+load file_contents[7,2] = ../external/data/blp1999_guess_param.csv;
+parm_input = file_contents[translate_95_to_99+1, 2];
+
+extract_unobs("guess");
+
+/* Published BLP (1995) parameters */
+load file_contents[7,3] = ../external/data/published_param.csv;
+parm_input = file_contents[translate_95_to_99+1, 2];
+
+extract_unobs("pub");
+
+/* ===== Procedures ===== */
+proc (0)=extract_unobs(param_stub);
+    load data[20,15] = otherdat3.asc;
+    mean = data[.,3];
+    year = data[.,1];
+    sd = 1.72;    @ copied from base.prg @
+    
+    meanly_input = mean;
+    sigly_input = sd;
+    nfind_input = 10;
+    kseed2_input = 76312;    @ original seed from base.prg @
+    stub = param_stub;
+    run -r "base.prg";
+    
+    @ Output income and sd parameters @
+    output file = "../output/meanincome.csv" reset;
+    print year~mean;
+    output off;
+    
+    output file = "../output/sdincome.csv" reset;
+    print sd;
+    output off;
+    
+    nfind_input = 100;
+    kseed2_input = 5292011;
+    stub = param_stub$+"_bootstrap";
+    run -r "base.prg";
+endp;
+
+end;

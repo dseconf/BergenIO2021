@@ -1,0 +1,15 @@
+/*
+This is a GAUSS library file containing procedures written for BLP (1995)
+*/
+
+../external/lib/blp_1999/struc-inst-steve2.arc
+  mdparm obj prederr_ perchg del_mark drawopt exch uncollin
+  
+../external/lib/blp_1999/print.arc
+  printan
+  
+../external/lib/blp_1999/concat.arc
+  concatv
+  
+../external/lib/blp_1999/mystat.arc
+  exp2

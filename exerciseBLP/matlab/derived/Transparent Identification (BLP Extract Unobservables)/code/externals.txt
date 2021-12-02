@@ -1,0 +1,3 @@
+rev	dir	file	outdir	outfile	notes
+31819	%svn%/lib/third_party/blp_1999	*	./lib/blp_1999/	""""	
+31819	%svn%/raw/BLP (1995)/orig	*	./data/	""""	

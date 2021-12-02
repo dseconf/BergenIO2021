@@ -1,0 +1,463 @@
+
+ make.py started: 2015-09-18 20:19:45 C:\Checkout\Transparent Identification (BLP Replication)\code 
+
+
+Path: gslab_make
+URL: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/python/gslab_make
+Repository Root: http://gsbhmg01.chicagobooth.edu/svn
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 32540
+Node Kind: directory
+Last Changed Author: ashahidinejad
+Last Changed Rev: 32396
+Last Changed Date: 2015-09-04 17:23:55 -0500 (Fri, 04 Sep 2015)
+
+
+ get_externals.py started: 2015-09-18 20:19:46 C:\Checkout\Transparent Identification (BLP Replication)\code
+
+ Input was: "31866	%svn%/lib/matlab/blp	*	./lib/matlab/blp/	""""	".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/blp/ @31866 exported to ../external/./lib/matlab/blp/.
+
+ Input was: "31866	%svn%/lib/matlab/gslab_mde/	*	./lib/matlab/gslab_mde/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_mde/ @31866 exported to ../external/./lib/matlab/gslab_mde/.
+
+ Input was: "31866	%svn%/lib/matlab/gslab_model/	*	./lib/matlab/gslab_model/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_model/ @31866 exported to ../external/./lib/matlab/gslab_model/.
+
+ Input was: "31866	%svn%/lib/matlab/gslab_misc	*	./lib/matlab/gslab_misc	""""	".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_misc/ @31866 exported to ../external/./lib/matlab/gslab_misc/.
+
+ Input was: "31866	%svn%/lib/matlab/trans	*	./lib/matlab/trans	""""	".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/trans/ @31866 exported to ../external/./lib/matlab/trans/.
+
+ Input was: "31866	%svn%/lib/stata/gslab_misc	*	./lib/stata/gslab_misc	""""	".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/stata/gslab_misc/ @31866 exported to ../external/./lib/stata/gslab_misc/.
+
+ Input was: "31866	%svn%/lib/third_party/stata_tools	*	./lib/third_party/stata_tools	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/stata_tools/ @31866 exported to ../external/./lib/third_party/stata_tools/.
+
+ Input was: "31866	%svn%/analysis/Transparent Identification (BLP Estimation)/output	blp_estimation.mat	./data/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/analysis/Transparent Identification (BLP Estimation)/output/blp_estimation.mat @31866 exported to ../external/./data/blp_estimation.mat.
+
+ Input was: "31866	%svn%/derived/Transparent Identification (BLP Extract Data)/output	blp_1999_data.csv	./data/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/derived/Transparent Identification (BLP Extract Data)/output/blp_1999_data.csv @31866 exported to ../external/./data/blp_1999_data.csv.
+
+ Input was: "31866	%svn%/derived/Transparent Identification (BLP Extract Unobservables)/output	*	./data/	""""	".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/derived/Transparent Identification (BLP Extract Unobservables)/output/ @31866 exported to ../external/./data/.
+
+ get_externals.py ended: 2015-09-18 20:19:56
+
+
+Execute:  %STATAEXE% /e do "./descriptive.do"
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+22-user 8-core Stata network license expires 30 Jun 2016:
+       Serial number:  501409201094
+         Licensed to:  Chicago Booth
+                       The University of Chicago Booth School of BUsiness
+
+Notes:
+      1.  (/v# option or -set maxvar-) 7000 maximum variables
+      2.  Stata running in batch mode
+
+
+running C:\Program Files (x86)\Stata13\profile.do ...
+
+. do ./descriptive.do 
+
+. version 13
+
+. set more off
+
+. adopath + ../external/lib/stata/gslab_misc/ado
+  [1]  (BASE)      "C:\Program Files (x86)\Stata13\ado\base/"
+  [2]  (SITE)      "C:\Program Files (x86)\Stata13\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "c:\ado\personal/"
+  [5]  (PLUS)      "c:\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "../external/lib/stata/gslab_misc/ado"
+
+. preliminaries
+
+. 
+. program main
+  1.     prepare_data
+  2.     table_1
+  3.     table_2
+  4.     table_3
+  5. end
+
+. 
+. program prepare_data
+  1.     insheet using ../external/data/blp_1999_data.csv, clear comma names double
+  2.     drop v19
+  3.     save ../temp/blp_data, replace
+  4. end
+
+. 
+. program table_1
+  1.     use ../temp/blp_data, clear
+  2.     replace year = year + 1900
+  3.     egen sum_share_year = total(share), by(year)
+  4.     gen weight = share / sum_share_year
+  5.     
+.     egen total_models = count(1)
+  6.     egen no_of_models = count(1), by(year)
+  7.     local total_no_models = total_models[1]
+  8.     quietly sum quantity
+  9.     local total_mean_quantity `r(mean)'
+ 10.     foreach var of varlist price domestic japan european hpwt space air mpg mpd {
+ 11.         egen sum_weighted_`var' = total(`var' * weight), by(year)
+ 12.     }
+ 13.     
+.     collapse (mean) no_of_models quantity sum_weighted_* (rawsum) sum_quantity_year=quantity, by(year)
+ 14.     mkmat year no_of_models quantity sum_weighted_*, matrix(TABLE)
+ 15.     matrix_to_txt, saving(../output/tables.txt) mat(TABLE) format(%20.3f) ///
+>         title(<tab:descriptive_statistics>) replace
+ 16.     
+.     * Generate "All" row
+.     egen total_quantity = total(sum_quantity_year)
+ 17.     gen weight = sum_quantity_year / total_quantity
+ 18.     collapse (mean) sum_weighted_* [aw=weight]
+ 19.     file open tables using ../output/tables.txt, write append
+ 20.     file write tables  "All" _tab %7.3f (`total_no_models') _tab %7.3f (`total_mean_quantity') _tab 
+ 21.     foreach var of varlist sum_weighted_* { 
+ 22.         quietly sum `var'
+ 23.         file write tables %7.3f (r(mean)) _tab
+ 24.     }
+ 25.     file write tables _n
+ 26.     file close tables
+ 27. end
+
+. 
+. program table_2
+  1.     use ../temp/blp_data, clear
+  2.     
+.     cap matrix drop TABLE
+  3.     replace mpg = mpg * 10    // mpg and mpd seem to enter table 2 as true mpg and mpd,
+  4.     replace mpd = mpd * 10    // but enter tables 1 and 3 in ten miles / gallon (or dollar)
+  5.     foreach var of varlist price quantity hpwt space mpd mpg {
+  6.         sum `var', detail
+  7.         matrix TABLE = nullmat(TABLE) \ (r(min), r(p25), r(p50), r(p75), r(max))
+  8.     }
+  9.     matrix_to_txt, saving(../output/tables.txt) mat(TABLE) format(%20.3f) ///
+>         title(<tab:demand_percentiles>) append
+ 10. end
+
+. 
+. program table_3
+  1.     use ../temp/blp_data, clear
+  2.     cap matrix drop TABLE
+  3.     
+.     * Column 1 (OLS)
+.     reg logit_depvar hpwt air mpd space price
+  4.     compute_inelastic_demand, price_coef_name(price)
+  5.     local ols_inelastic_lower = round(r(ci_lower), 0.001)
+  6.     local ols_inelastic_upper = round(r(ci_upper), 0.001)
+  7.     matrix TABLE = _b[_cons]        \ _se[_cons]  \ ///
+>                    _b[hpwt]         \ _se[hpwt]   \ ///
+>                    _b[air]          \ _se[air]    \ ///
+>                    _b[mpd]          \ _se[mpd]    \ ///
+>                    .                \ .           \ ///
+>                    _b[space]        \ _se[space]  \ ///
+>                    .                \ .           \ ///
+>                    _b[price]        \ _se[price]  \ r(num_inelastic)
+  8.     scalar ols_r2 = e(r2)
+  9.     
+.     * Column 2 (IV)
+.     * First construct the instruments, following BLP (1995, p. 861)
+.     egen ncar_firm = count(1), by(year firm_id)
+ 10.     local five_dmd_variables const hpwt air mpd space
+ 11.     foreach var of local five_dmd_variables{ 
+ 12.         * Reproduces IV construction from BLP (1995) code
+.         gen own_`var' = `var' * ncar_firm
+ 13.         egen all_`var' = total(`var'), by(year)
+ 14.     }
+ 15.     
+.     local indep_var const hpwt air mpd space price
+ 16.     local inst_var const hpwt air mpd space own_* all_*
+ 17.     gmm (logit_depvar - {xb:`indep_var'}), ///
+>         instruments(`inst_var') ///
+>         winitial(identity) center
+ 18.     compute_2sls_se, indep_var(`indep_var') inst_var(`inst_var')
+ 19.     compute_inelastic_demand, price_coef_name(xb_price:_cons)
+ 20.     local iv_inelastic_lower = round(r(ci_lower), 0.001)
+ 21.     local iv_inelastic_upper = round(r(ci_upper), 0.001)
+ 22.     matrix TABLE = nullmat(TABLE) ,                            ///
+>                    (_b[xb_const:_cons] \ _se[xb_const:_cons] \ ///
+>                    _b[xb_hpwt:_cons]   \ _se[xb_hpwt:_cons]  \ ///
+>                    _b[xb_air:_cons]    \ _se[xb_air:_cons]   \ ///
+>                    _b[xb_mpd:_cons]    \ _se[xb_mpd:_cons]   \ ///
+>                    .                   \ .                   \ ///
+>                    _b[xb_space:_cons]  \ _se[xb_space:_cons] \ ///
+>                    .                   \ .                   \ ///
+>                    _b[xb_price:_cons]  \ _se[xb_price:_cons] \ r(num_inelastic))
+ 23.     
+.     * Column 3 (OLS w/ logs)
+.     foreach var of varlist price hpwt space mpg {
+ 24.         replace `var' = log(`var')
+ 25.     }
+ 26.     replace trend = year    // transform trend to get the same intercept coefficient
+ 27.     
+.     reg price hpwt air mpg space trend
+ 28.     matrix TABLE = nullmat(TABLE) ,          ///
+>                    (_b[_cons] \ _se[_cons] \ ///
+>                    _b[hpwt]   \ _se[hpwt]  \ ///
+>                    _b[air]    \ _se[air]   \ ///
+>                    .          \ .          \ ///
+>                    _b[mpg]    \ _se[mpg]   \ ///
+>                    _b[space]  \ _se[space] \ ///
+>                    _b[trend]  \ _se[trend] \ . \ . \ .)
+ 29.     matrix_to_txt, saving(../output/tables.txt) mat(TABLE) format(%20.3f) ///
+>         title(<tab:ols_logit>) append
+ 30.     file open f using ../output/tables.txt, write append
+ 31.     file write f "(`ols_inelastic_lower'-`ols_inelastic_upper')" _tab
+ 32.     file write f "(`iv_inelastic_lower'-`iv_inelastic_upper')" _tab "." _n
+ 33.     file close f
+ 34.     matrix TABLE = ols_r2 , ., e(r2)
+ 35.     matrix_to_txt, saving(../output/tables.txt) mat(TABLE) format(%20.3f) title() append
+ 36. end
+
+. 
+. * Replicates standard errors from BLP (1995)
+. program compute_2sls_se, eclass
+  1.     syntax, indep_var(varlist) inst_var(varlist)
+  2.     preserve
+  3.     
+.     predict resid
+  4.     * local inst_var const hpwt air mpd space own_* all_*
+.     foreach instrument of varlist `inst_var' {
+  5.         gen mom_`instrument' = `instrument' * resid
+  6.     }
+  7.     quietly corr mom_*, covariance
+  8.     matrix VCOV_MOM = r(C)
+  9.     
+.     mkmat `indep_var', matrix(X)
+ 10.     mkmat `inst_var', matrix(Z)
+ 11.     matrix JACOBIAN = Z' * X / _N
+ 12.     matrix VCOV_PARAM = ///
+>         inv(JACOBIAN' * JACOBIAN) * JACOBIAN' * VCOV_MOM * JACOBIAN * inv(JACOBIAN' * JACOBIAN) / _N
+ 13.     ereturn repost V = VCOV_PARAM
+ 14.     
+.     restore
+ 15. end
+
+. 
+. program compute_inelastic_demand, rclass
+  1.     syntax, price_coef_name(string)
+  2.     * Rounds inputs to ensure match with BLP (1995) table
+.     scalar price_coef = round(_b[`price_coef_name'], 0.001)
+  3.     scalar price_coef_se = round(_se[`price_coef_name'], 0.001)
+  4.     
+.     gen price_elasticity = -price_coef * price * (1-share)
+  5.     quietly count if price_elasticity < 1
+  6.     return scalar num_inelastic = `r(N)'
+  7.     
+.     gen price_elasticity_ci_upper = -(price_coef + 2*price_coef_se) * price * (1-share)
+  8.     quietly count if price_elasticity_ci_upper < 1
+  9.     return scalar ci_upper = `r(N)'
+ 10.     
+.     gen price_elasticity_ci_lower = -(price_coef - 2*price_coef_se) * price * (1-share)
+ 11.     quietly count if price_elasticity_ci_lower < 1
+ 12.     return scalar ci_lower = `r(N)'
+ 13.     
+.     drop price_elasticity*
+ 14. end
+
+. 
+. * EXECUTE
+. main
+(19 vars, 2217 obs)
+(note: file ../temp/blp_data.dta not found)
+file ../temp/blp_data.dta saved
+year was byte now int
+(2217 real changes made)
+(note: file ../output/tables.txt not found)
+(2217 real changes made)
+(2217 real changes made)
+
+                            price
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     4.636617       3.393267
+ 5%     5.244288       3.444444
+10%     5.698446       3.507258       Obs                2217
+25%     6.713755       3.512324       Sum of Wgt.        2217
+
+50%      8.72865                      Mean           11.76142
+                        Largest       Std. Dev.      8.643777
+75%     13.07407       60.11694
+90%     21.14624       64.11665       Variance       74.71488
+95%      30.6206        64.3871       Skewness       2.660196
+99%     47.81943       68.59677       Kurtosis       11.37508
+
+                          quantity
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%        1.276           .049
+ 5%        2.975           .167
+10%        5.579            .45       Obs                2217
+25%       15.603           .511       Sum of Wgt.        2217
+
+50%        47.35                      Mean           78.80399
+                        Largest       Std. Dev.      89.07988
+75%      109.002        565.376
+90%      199.207        568.921       Variance       7935.225
+95%      277.176        577.313       Skewness       1.975223
+99%      380.499        646.526       Kurtosis       7.666398
+
+                            hpwt
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .2268371       .1704545
+ 5%     .2800517             .2
+10%     .3044496       .2012987       Obs                2217
+25%     .3365854       .2012987       Sum of Wgt.        2217
+
+50%     .3750493                      Mean           .3943753
+                        Largest       Std. Dev.      .0966429
+75%     .4275093       .9015692
+90%     .5102041       .9015692       Variance       .0093398
+95%     .5804878       .9015692       Skewness        1.66521
+99%     .7462687       .9475806       Kurtosis       7.405674
+
+                            space
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%         .876           .756
+ 5%        .9943          .7896
+10%       1.0349          .7896       Obs                2217
+25%     1.131279        .840768       Sum of Wgt.        2217
+
+50%     1.269827                      Mean           1.310159
+                        Largest       Std. Dev.       .237637
+75%       1.4527         1.8873
+90%       1.7004         1.8873       Variance       .0564713
+95%        1.784          1.888       Skewness       .5482958
+99%        1.848          1.888       Kurtosis        2.55748
+
+                             mpd
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     9.894775       8.460695
+ 5%     11.25581       8.604016
+10%     12.65818       8.843854       Obs                2217
+25%     15.57015       9.235123       Sum of Wgt.        2217
+
+50%     20.10417                      Mean            20.8487
+                        Largest       Std. Dev.       6.98056
+75%     24.82848       52.72574
+90%     30.00413       55.02326       Variance       48.72821
+95%     32.79138       57.80962       Skewness       1.011456
+99%     42.50735       64.36827       Kurtosis       4.888358
+
+                             mpg
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%           11           9.13
+ 5%        12.83           9.81
+10%        14.17           9.99       Obs                2217
+25%           17             10       Sum of Wgt.        2217
+
+50%           20                      Mean           20.99643
+                        Largest       Std. Dev.      5.810699
+75%           25             44
+90%           29             46       Variance       33.76422
+95%           32             47       Skewness       .7993982
+99%           38             53       Kurtosis       4.034909
+
+      Source |       SS       df       MS              Number of obs =    2217
+-------------+------------------------------           F(  5,  2211) =  279.64
+       Model |  1639.14273     5  327.828545           Prob > F      =  0.0000
+    Residual |  2592.05292  2211  1.17234415           R-squared     =  0.3874
+-------------+------------------------------           Adj R-squared =  0.3860
+       Total |  4231.19565  2216  1.90938432           Root MSE      =  1.0827
+
+------------------------------------------------------------------------------
+logit_depvar |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        hpwt |  -.1205578    .277234    -0.43   0.664    -.6642241    .4231085
+         air |  -.0347453   .0728063    -0.48   0.633    -.1775211    .1080305
+         mpd |   .2631698   .0431176     6.10   0.000     .1786145     .347725
+       space |   2.341023   .1251805    18.70   0.000      2.09554    2.586507
+       price |  -.0887309   .0040258   -22.04   0.000    -.0966257   -.0808362
+       _cons |  -10.06885   .2528788   -39.82   0.000    -10.56476   -9.572949
+------------------------------------------------------------------------------
+
+Step 1
+Iteration 0:   GMM criterion Q(b) =  5891893.4  
+Iteration 1:   GMM criterion Q(b) =    1.73176  
+Iteration 2:   GMM criterion Q(b) =    1.73176  
+
+Step 2
+Iteration 0:   GMM criterion Q(b) =  .14021467  
+Iteration 1:   GMM criterion Q(b) =  .06263956  
+Iteration 2:   GMM criterion Q(b) =  .06263956  
+
+GMM estimation 
+
+Number of parameters =   6
+Number of moments    =  16
+Initial weight matrix: Identity                       Number of obs  =    2217
+GMM weight matrix:     Robust
+
+------------------------------------------------------------------------------
+             |               Robust
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   /xb_const |  -9.273549   .2822753   -32.85   0.000    -9.826798     -8.7203
+    /xb_hpwt |   1.964596   .4572867     4.30   0.000      1.06833    2.860861
+     /xb_air |   1.288768   .1699349     7.58   0.000     .9557013    1.621834
+     /xb_mpd |   .0524976    .049064     1.07   0.285     -.043666    .1486611
+   /xb_space |   2.355284   .1385368    17.00   0.000     2.083757    2.626811
+   /xb_price |  -.2161255   .0157206   -13.75   0.000    -.2469373   -.1853137
+------------------------------------------------------------------------------
+Instruments for equation 1: const hpwt air mpd space own_const own_hpwt own_air own_mpd own_space all_const all_hpwt all_air all_mpd all_space _cons
+(2217 real changes made)
+(2217 real changes made)
+(2217 real changes made)
+(2217 real changes made)
+(2217 real changes made)
+
+      Source |       SS       df       MS              Number of obs =    2217
+-------------+------------------------------           F(  5,  2211) =  844.93
+       Model |  413.654032     5  82.7308064           Prob > F      =  0.0000
+    Residual |  216.489194  2211  .097914606           R-squared     =  0.6564
+-------------+------------------------------           Adj R-squared =  0.6557
+       Total |  630.143226  2216  .284360662           Root MSE      =  .31291
+
+------------------------------------------------------------------------------
+       price |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        hpwt |   .5203368   .0350804    14.83   0.000     .4515428    .5891308
+         air |   .6797513   .0187533    36.25   0.000     .6429755    .7165271
+         mpg |  -.4706403   .0485484    -9.69   0.000    -.5658455    -.375435
+       space |   .1248271   .0634536     1.97   0.049     .0003922     .249262
+       trend |   .0128307   .0015049     8.53   0.000     .0098796    .0157819
+       _cons |   1.881921   .1187598    15.85   0.000     1.649029    2.114814
+------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+
+Execute:  matlab -r structural -logfile structural.log -nosplash -minimize -wait
+    ----------------------------------------------------
+	Your MATLAB license will expire in 44 days.
+	Please contact your system administrator or
+	MathWorks to renew this license.
+    ----------------------------------------------------
+Starting matlabpool using the 'local' profile ... connected to 11 workers.
+Sending a stop signal to all the workers ... stopped.
+
+ make.py ended: 2015-09-18 20:20:26

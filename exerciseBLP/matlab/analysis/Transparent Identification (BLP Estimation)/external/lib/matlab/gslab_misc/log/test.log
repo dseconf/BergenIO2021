@@ -1,0 +1,89 @@
+Test suite: C:\Checkout\Mazzeo\gslab_misc\test
+09-May-2015 14:48:40
+
+
+C:\Checkout\Mazzeo\gslab_misc\test
+
+   test_addvar2struct
+      test_addvar2struct .................................... passed in     0.022199 seconds
+   test_addvar2struct ....................................... passed in     0.034299 seconds
+
+
+   test_assertbad
+      test_assertbad ........................................ passed in     0.004454 seconds
+   test_assertbad ........................................... passed in     0.005265 seconds
+
+
+   test_columnplot
+      test_columnplot ....................................... passed in     3.061613 seconds
+   test_columnplot .......................................... passed in     3.062714 seconds
+
+
+   test_copyproperties
+      test_copyproperties ................................... passed in     0.008794 seconds
+   test_copyproperties ...................................... passed in     0.009790 seconds
+
+
+   test_expand_array
+      test_expand_array ..................................... passed in     0.094483 seconds
+   test_expand_array ........................................ passed in     0.095494 seconds
+
+
+   test_groups
+      test_groups ........................................... passed in     0.011244 seconds
+   test_groups .............................................. passed in     0.012193 seconds
+
+
+   test_make_vcov
+      test_make_vcov ........................................ passed in     0.030513 seconds
+   test_make_vcov ........................................... passed in     0.031381 seconds
+
+
+   test_parse_name_list
+      test_parse_name_list .................................. passed in     0.004949 seconds
+   test_parse_name_list ..................................... passed in     0.005829 seconds
+
+
+   test_parse_option_list
+      test_parse_option_list ................................ passed in     0.007232 seconds
+   test_parse_option_list ................................... passed in     0.008066 seconds
+
+
+   test_randgumbel
+      test_mean_value ....................................... passed in     0.011014 seconds
+      test_variance ......................................... passed in     0.008887 seconds
+      test_choice_simulations ............................... passed in     2.359762 seconds
+   test_randgumbel .......................................... passed in     2.381146 seconds
+
+
+   test_sortby
+      test_sortby ........................................... passed in     0.003741 seconds
+   test_sortby .............................................. passed in     0.004594 seconds
+
+
+   test_strfind_logical
+      test_strfind_logical .................................. passed in     0.005218 seconds
+   test_strfind_logical ..................................... passed in     0.005993 seconds
+
+
+   test_tree
+      test_tree ............................................. passed in     0.132529 seconds
+   test_tree ................................................ passed in     0.133419 seconds
+
+
+   test_visualize_table
+      test_visualize_table .................................. passed in     2.152023 seconds
+   test_visualize_table ..................................... passed in     2.153142 seconds
+
+
+   test_write_checksum
+      test_write_checksum ................................... passed in     0.028564 seconds
+   test_write_checksum ...................................... passed in     0.029587 seconds
+
+
+   test_write_text_table
+      test_write_text_table ................................. passed in     0.261590 seconds
+   test_write_text_table .................................... passed in     0.262530 seconds
+
+C:\Checkout\Mazzeo\gslab_misc\test .......................... passed in     8.246268 seconds
+

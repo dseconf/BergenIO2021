@@ -1,0 +1,38 @@
+blp1995_names,output_names,moment_type
+demand_const,This car: Constant,Demand_moments
+demand_hpwt,This car: Horsepower/weight,Demand_moments
+demand_air,This car: AC standard,Demand_moments
+demand_mpd,This car: Miles/dollar,Demand_moments
+demand_space,This car: Size,Demand_moments
+demand_firm_const,Other cars by same firm: # Cars,Demand_moments
+demand_firm_hpwt,Other cars by same firm: Sum of horsepower/weight,Demand_moments
+demand_firm_air,Other cars by same firm: # Cars w/ AC standard,Demand_moments
+demand_firm_mpd,Other cars by same firm: Sum of miles/dollar,Demand_moments
+demand_firm_space,Other cars by same firm: Sum of size,Demand_moments
+demand_rival_const,Cars by rival firms: # Cars,Demand_moments
+demand_rival_hpwt,Cars by rival firms: Sum of horsepower/weight,Demand_moments
+demand_rival_air,Cars by rival firms: # Cars w/ AC standard,Demand_moments
+demand_rival_mpd,Cars by rival firms: Sum of miles/dollar,Demand_moments
+demand_rival_space,Cars by rival firms: Sum of size,Demand_moments
+supply_const,This car: Constant,Supply_moments
+supply_loghpwt,This car: Log horsepower/weight,Supply_moments
+supply_air,This car: AC standard,Supply_moments
+supply_logmpg,This car: Log miles/gallon,Supply_moments
+supply_logspace,This car: Log size,Supply_moments
+supply_trend,This car: Time trend,Supply_moments
+supply_firm_const,Other cars by same firm: # Cars,Supply_moments
+supply_firm_loghpwt,Other cars by same firm: Sum of log horsepower/weight,Supply_moments
+supply_firm_air,Other cars by same firm: # Cars w/ AC standard,Supply_moments
+supply_firm_logmpg,Other cars by same firm: Sum of log miles/gallon,Supply_moments
+supply_firm_logspace,Other cars by same firm: Sum of log size,Supply_moments
+supply_firm_trend,Other cars by same firm: Sum of time trend,Supply_moments
+supply_rival_const,Cars by rival firms: # Cars,Supply_moments
+supply_rival_loghpwt,Cars by rival firms: Sum of log horsepower/weight,Supply_moments
+supply_rival_air,Cars by rival firms: # Cars w/ AC standard,Supply_moments
+supply_rival_logmpg,Cars by rival firms: Sum of log miles/gallon,Supply_moments
+supply_rival_logspace,Cars by rival firms: Sum of log size,Supply_moments
+supply_rival_trend,Cars by rival firms: Sum of time trend,Supply_moments
+supply_mpd,This car: Miles/dollar,Supply_moments
+demand_mpg,This car: Miles/gallon,Demand_moments
+demand_firm_mpg,Other cars by same firm: Sum of miles/gallon,Demand_moments
+demand_rival_mpg,Cars by rival firms: Sum of miles/gallon,Demand_moments

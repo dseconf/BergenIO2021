@@ -1,0 +1,110 @@
+
+ make.py started: 2013-11-05 23:01:21 C:\Allen\gslab_model 
+
+
+Path: gslab_make
+URL: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/python/gslab_make
+Repository Root: http://gsbhmg01.chicagobooth.edu/svn
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 23160
+Node Kind: directory
+Last Changed Author: zqian
+Last Changed Rev: 23124
+Last Changed Date: 2013-11-04 15:51:58 -0600 (Mon, 04 Nov 2013)
+
+
+ get_externals.py started: 2013-11-05 23:01:25 C:\Allen\gslab_model
+
+ Input was: "22509	%svn%/lib/third_party/matlab_xunit/	*	./lib/third_party/matlab_xunit/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/matlab_xunit/ @22509 exported to ./external/./lib/third_party/matlab_xunit/.
+
+ get_externals.py ended: 2013-11-05 23:01:41
+
+ get_externals.py started: 2013-11-05 23:01:41 C:\Allen\gslab_model
+Note: not using filename externals.txt.
+
+
+ Input was: "22509	%svn%/lib/c/gslab_misc/	*	./gslab_misc_c/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/c/gslab_misc/ @22509 exported to ./depend/./gslab_misc_c/.
+
+ Input was: "22509	%svn%/lib/matlab/gslab_misc/	*	./gslab_misc/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_misc/ @22509 exported to ./depend/./gslab_misc/.
+
+ Input was: "22509	%svn%/lib/matlab/numerical_derivatives/	*	./numerical_derivatives/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/numerical_derivatives/ @22509 exported to ./depend/./numerical_derivatives/.
+
+ Input was: "22509	%svn%/lib/third_party/nwspgr/	*	./nwspgr/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/nwspgr/ @22509 exported to ./depend/./nwspgr/.
+
+ get_externals.py ended: 2013-11-05 23:02:09
+
+
+Execute:  matlab -r run_all_tests -logfile run_all_tests.log -nosplash -minimize -wait
+Starting matlabpool using the 'local' profile ... connected to 8 workers.
+
+======================================
+       Commercial Ziena License
+             KNITRO 8.0.0
+          Ziena Optimization
+======================================
+
+WARNING: Option presolve=1 not valid when gradopt=2 (finite differences).
+         No presolve will be applied.
+algorithm:            1
+gradopt:              2
+hessopt:              2
+honorbnds:            1
+maxit:                10000
+outlev:               4
+presolve:             0
+The problem is identified as unconstrained.
+KNITRO changing bar_switchrule from AUTO to 1.
+KNITRO changing bar_murule from AUTO to 4.
+KNITRO changing bar_initpt from AUTO to 2.
+KNITRO changing bar_penaltyrule from AUTO to 2.
+KNITRO changing bar_penaltycons from AUTO to 1.
+KNITRO changing linsolver from AUTO to 2.
+KNITRO changing honorbnds to 0 (because there are no bounds).
+
+Problem Characteristics
+-----------------------
+Objective goal:  Minimize
+Number of variables:                     2
+    bounded below:                       0
+    bounded above:                       0
+    bounded below and above:             0
+    fixed:                               0
+    free:                                2
+Number of constraints:                   0
+    linear equalities:                   0
+    nonlinear equalities:                0
+    linear inequalities:                 0
+    nonlinear inequalities:              0
+    range:                               0
+Number of nonzeros in Jacobian:          0
+Number of nonzeros in Hessian:           3
+
+  Iter     fCount     Objective      FeasError   OptError    ||Step||    CGits 
+--------  --------  --------------  ----------  ----------  ----------  -------
+       0         3   0.000000e+000  0.000e+000
+
+EXIT: Locally optimal solution found.
+
+Final Statistics
+----------------
+Final objective value               =  0.00000000000000e+000
+Final feasibility error (abs / rel) =   0.00e+000 / 0.00e+000
+Final optimality error  (abs / rel) =   1.49e-008 / 1.49e-008
+# of iterations                     =          0 
+# of CG iterations                  =          0 
+# of function evaluations           =          3
+# of gradient evaluations           =          0
+Total program time (secs)           =       0.006 (     0.000 CPU time)
+Time spent in evaluations (secs)    =       0.004
+
+===============================================================================
+
+Writing ..//outtest.csv to disk...
+Sending a stop signal to all the workers ... stopped.
+
+ make.py ended: 2013-11-05 23:02:41

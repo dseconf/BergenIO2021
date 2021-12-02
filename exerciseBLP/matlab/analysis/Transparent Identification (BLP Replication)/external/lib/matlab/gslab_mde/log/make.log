@@ -1,0 +1,313 @@
+
+ make.py started: 2014-04-02 15:44:17 C:\Allen\Dropbox\GSLab\gslab_mde 
+
+
+Path: gslab_make
+URL: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/python/gslab_make
+Relative URL: ^/trunk/lib/python/gslab_make
+Repository Root: http://gsbhmg01.chicagobooth.edu/svn
+Repository UUID: 89b4331b-4301-411a-8e06-9c78d9cdb83d
+Revision: 25574
+Node Kind: directory
+Last Changed Author: azhang2
+Last Changed Rev: 24565
+Last Changed Date: 2014-01-29 16:20:06 -0600 (Wed, 29 Jan 2014)
+
+
+ get_externals.py started: 2014-04-02 15:44:17 C:\Allen\Dropbox\GSLab\gslab_mde
+
+ Input was: "23161	%svn%/lib/third_party/matlab_xunit/	*	./matlab_xunit/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/matlab_xunit/ @23161 exported to ./external/./matlab_xunit/.
+
+ Input was: "23161	%svn%/lib/stata/gslab_misc/ado/	*	./gslab_misc/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/stata/gslab_misc/ado/ @23161 exported to ./external/./gslab_misc/.
+
+ Input was: "23161	%svn%/lib/matlab/gslab_model/data	*	./data/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_model/data/ @23161 exported to ./external/./data/.
+
+ get_externals.py ended: 2014-04-02 15:44:21
+
+ get_externals.py started: 2014-04-02 15:44:21 C:\Allen\Dropbox\GSLab\gslab_mde
+Note: not using filename externals.txt.
+
+
+ Input was: "22514	%svn%/lib/c/gslab_misc/	*	./gslab_misc_c/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/c/gslab_misc/ @22514 exported to ./depend/./gslab_misc_c/.
+
+ Input was: "22514	%svn%/lib/matlab/gslab_misc/	*	./gslab_misc/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_misc/ @22514 exported to ./depend/./gslab_misc/.
+
+ Input was: "22514	%svn%/lib/matlab/numerical_derivatives/	*	./numerical_derivatives/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/numerical_derivatives/ @22514 exported to ./depend/./numerical_derivatives/.
+
+ Input was: "22514	%svn%/lib/third_party/nwspgr/	*	./nwspgr/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/third_party/nwspgr/ @22514 exported to ./depend/./nwspgr/.
+
+ Input was: "22514	%svn%/lib/matlab/gslab_model/	*	./gslab_model/	""""".
+SVN command passed: http://gsbhmg01.chicagobooth.edu/svn/trunk/lib/matlab/gslab_model/ @22514 exported to ./depend/./gslab_model/.
+
+ get_externals.py ended: 2014-04-02 15:44:35
+
+
+Execute:  %STATAEXE% /e do "output_for_test_against_stata.do"
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   13.1   Copyright 1985-2013 StataCorp LP
+  Statistics/Data Analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        http://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+22-user 8-core Stata network license expires 30 Jun 2014:
+       Serial number:  501306001307
+         Licensed to:  Preferred Customer
+                       The University of Chicago
+
+Notes:
+      1.  (/v# option or -set maxvar-) 5000 maximum variables
+      2.  Stata running in batch mode
+
+
+running C:\Program Files (x86)\Stata13\profile.do ...
+
+. do output_for_test_against_stata.do 
+
+.  /**********************************************************
+>  *
+>  *  OUTPUT_FOR_TEST_AGAINST_STATA.DO
+>  * 
+>  **********************************************************/ 
+. 
+. version 12
+
+. set more off
+
+. adopath + ../external/gslab_misc
+  [1]  (BASE)      "C:\Program Files (x86)\Stata13\ado\base/"
+  [2]  (SITE)      "C:\Program Files (x86)\Stata13\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "c:\ado\personal/"
+  [5]  (PLUS)      "c:\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "../external/gslab_misc"
+
+. preliminaries
+
+. 
+. program main
+  1.     import_raw_data, obs(100)
+  2.     run_linear_gmm
+  3.     run_linear_gmm_with_instr
+  4. end
+
+. 
+. program import_raw_data
+  1.     syntax, obs(int)
+  2.     insheet using "../external/data/test_data.csv", clear
+  3.     drop if _n > `obs'
+  4. end
+
+. 
+. program run_linear_gmm 
+  1.     gmm (y_norm - {b0} - {xb: x1 x2}), instr(x1 x2) onestep 
+  2.     matrix parammat = e(b)
+  3.     matrix vcovmat = e(V)
+  4.     local outfile stataout_linear.txt
+  5.     matrix_to_txt, matrix(parammat) saving(parammat_`outfile') format(%19.0g) replace
+  6.     matrix_to_txt, matrix(vcovmat) saving(vcovmat_`outfile') format(%19.0g) replace
+  7. end
+
+. 
+. 
+. program run_linear_gmm_with_instr
+  1.     gmm (y_norm - {b0} - {b1}*x1), instr(x3 x4) onestep 
+  2.     matrix parammat = e(b)
+  3.     matrix vcovmat = e(V)
+  4.     matrix wmat = e(W)
+  5.     local outfile stataout_linear_instr.txt
+  6.     matrix_to_txt, matrix(parammat) saving(parammat_`outfile') format(%19.0g) replace
+  7.     matrix_to_txt, matrix(vcovmat) saving(vcovmat_`outfile') format(%19.0g) replace
+  8.     matrix_to_txt, matrix(wmat) saving(wmat_`outfile') format(%19.0g) replace
+  9. end
+
+. 
+. main
+(8 vars, 100000 obs)
+(99900 observations deleted)
+
+Step 1
+Iteration 0:   GMM criterion Q(b) =  102.56023  
+Iteration 1:   GMM criterion Q(b) =  6.404e-24  
+Iteration 2:   GMM criterion Q(b) =  5.796e-32  
+
+GMM estimation 
+
+Number of parameters =   3
+Number of moments    =   3
+Initial weight matrix: Unadjusted                     Number of obs  =     100
+
+------------------------------------------------------------------------------
+             |               Robust
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         /b0 |   9.418119   .3233264    29.13   0.000     8.784411    10.05183
+      /xb_x1 |   .3767902   .3877958     0.97   0.331    -.3832757    1.136856
+      /xb_x2 |   .9283564   .3849662     2.41   0.016     .1738366    1.682876
+------------------------------------------------------------------------------
+Instruments for equation 1: x1 x2 _cons
+(note: file parammat_stataout_linear.txt not found)
+(note: file vcovmat_stataout_linear.txt not found)
+
+Step 1
+Iteration 0:   GMM criterion Q(b) =  102.50933  
+Iteration 1:   GMM criterion Q(b) =  .00072043  
+Iteration 2:   GMM criterion Q(b) =  .00072043  
+
+GMM estimation 
+
+Number of parameters =   2
+Number of moments    =   3
+Initial weight matrix: Unadjusted                     Number of obs  =     100
+
+------------------------------------------------------------------------------
+             |               Robust
+             |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         /b0 |   8.191374   1.421534     5.76   0.000     5.405219    10.97753
+         /b1 |   3.481789    2.54383     1.37   0.171    -1.504026    8.467605
+------------------------------------------------------------------------------
+Instruments for equation 1: x3 x4 _cons
+(note: file parammat_stataout_linear_instr.txt not found)
+(note: file vcovmat_stataout_linear_instr.txt not found)
+(note: file wmat_stataout_linear_instr.txt not found)
+
+. 
+. 
+end of do-file
+
+
+Execute:  matlab -r run_all_tests -logfile run_all_tests.log -nosplash -minimize -wait
+
+======================================
+       Commercial Ziena License
+             KNITRO 9.0.1
+          Ziena Optimization
+======================================
+
+KNITRO presolve eliminated 0 variables and 0 constraints.
+
+algorithm:            1
+gradopt:              2
+hessopt:              2
+honorbnds:            1
+maxit:                10000
+opttol:               1e-010
+outlev:               1
+xtol:                 1e-020
+The problem is identified as unconstrained.
+KNITRO changing bar_switchrule from AUTO to 1.
+KNITRO changing bar_murule from AUTO to 4.
+KNITRO changing bar_initpt from AUTO to 3.
+KNITRO changing bar_penaltyrule from AUTO to 2.
+KNITRO changing bar_penaltycons from AUTO to 1.
+KNITRO changing linsolver from AUTO to 2.
+
+Problem Characteristics
+-----------------------
+Objective goal:  Minimize
+Number of variables:                     3
+    bounded below:                       0
+    bounded above:                       0
+    bounded below and above:             0
+    fixed:                               0
+    free:                                3
+Number of constraints:                   0
+    linear equalities:                   0
+    nonlinear equalities:                0
+    linear inequalities:                 0
+    nonlinear inequalities:              0
+    range:                               0
+Number of nonzeros in Jacobian:          0
+Number of nonzeros in Hessian:           6
+
+EXIT: Primal feasible solution estimate cannot be improved; desired accuracy
+      in dual feasibility could not be achieved.
+
+Final Statistics
+----------------
+Final objective value               =  2.39199129583394e-014
+Final feasibility error (abs / rel) =   0.00e+000 / 0.00e+000
+Final optimality error  (abs / rel) =   1.08e-008 / 1.08e-008
+# of iterations                     =         17 
+# of CG iterations                  =         36 
+# of function evaluations           =        124
+# of gradient evaluations           =          0
+Total program time (secs)           =       0.246 (     0.203 CPU time)
+Time spent in evaluations (secs)    =       0.161
+
+===============================================================================
+
+
+======================================
+       Commercial Ziena License
+             KNITRO 9.0.1
+          Ziena Optimization
+======================================
+
+KNITRO presolve eliminated 0 variables and 0 constraints.
+
+algorithm:            1
+gradopt:              2
+hessopt:              2
+honorbnds:            1
+maxit:                10000
+opttol:               1e-010
+outlev:               1
+xtol:                 1e-020
+The problem is identified as unconstrained.
+KNITRO changing bar_switchrule from AUTO to 1.
+KNITRO changing bar_murule from AUTO to 4.
+KNITRO changing bar_initpt from AUTO to 3.
+KNITRO changing bar_penaltyrule from AUTO to 2.
+KNITRO changing bar_penaltycons from AUTO to 1.
+KNITRO changing linsolver from AUTO to 2.
+
+Problem Characteristics
+-----------------------
+Objective goal:  Minimize
+Number of variables:                     2
+    bounded below:                       0
+    bounded above:                       0
+    bounded below and above:             0
+    fixed:                               0
+    free:                                2
+Number of constraints:                   0
+    linear equalities:                   0
+    nonlinear equalities:                0
+    linear inequalities:                 0
+    nonlinear inequalities:              0
+    range:                               0
+Number of nonzeros in Jacobian:          0
+Number of nonzeros in Hessian:           3
+
+EXIT: Locally optimal solution found.
+
+Final Statistics
+----------------
+Final objective value               =  7.20426313649184e-004
+Final feasibility error (abs / rel) =   0.00e+000 / 0.00e+000
+Final optimality error  (abs / rel) =   8.08e-011 / 8.08e-011
+# of iterations                     =         20 
+# of CG iterations                  =          0 
+# of function evaluations           =         66
+# of gradient evaluations           =          0
+Total program time (secs)           =       0.067 (     0.078 CPU time)
+Time spent in evaluations (secs)    =       0.065
+
+===============================================================================
+
+
+ make.py ended: 2014-04-02 15:44:59

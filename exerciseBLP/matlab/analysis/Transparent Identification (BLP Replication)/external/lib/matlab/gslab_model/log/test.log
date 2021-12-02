@@ -1,0 +1,22 @@
+Test suite: C:\Allen\gslab_model\test
+05-Nov-2013 23:02:29
+
+
+C:\Allen\gslab_model\test
+
+   testExampleData
+      testExampleData ....................................... passed in     2.383467 seconds
+   testExampleData .......................................... passed in     2.395796 seconds
+
+
+   testExampleModel
+      testExampleModel ...................................... passed in     1.065692 seconds
+   testExampleModel ......................................... passed in     1.066439 seconds
+
+
+   testSave_Load
+      testSave_Load ......................................... passed in     4.082340 seconds
+   testSave_Load ............................................ passed in     4.083122 seconds
+
+C:\Allen\gslab_model\test ................................... passed in     7.632051 seconds
+

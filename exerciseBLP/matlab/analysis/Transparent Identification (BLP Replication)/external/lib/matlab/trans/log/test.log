@@ -1,0 +1,42 @@
+Test suite: C:\Users\zqian\Documents\lib\matlab\trans\test
+10-Feb-2015 14:55:13
+
+
+C:\Users\zqian\Documents\lib\matlab\trans\test
+
+   test_get_conditional_sensitivity
+      test_get_conditional_sensitivity ...................... passed in     4.284830 seconds
+   test_get_conditional_sensitivity ......................... passed in     4.296396 seconds
+
+
+   test_get_counterfactual_sensitivity
+      test_get_counterfactual_sensitivity ................... passed in     0.254577 seconds
+   test_get_counterfactual_sensitivity ...................... passed in     0.255425 seconds
+
+
+   test_get_partial_sufficiencies
+      test_get_partial_sufficiencies ........................ passed in     1.812163 seconds
+   test_get_partial_sufficiencies ........................... passed in     1.813040 seconds
+
+
+   test_get_sensitivity
+      test_get_sensitivity .................................. passed in     0.152800 seconds
+   test_get_sensitivity ..................................... passed in     0.153553 seconds
+
+
+   test_get_sufficiency
+      test_get_sufficiency .................................. passed in     1.806224 seconds
+   test_get_sufficiency ..................................... passed in     1.806971 seconds
+
+
+   test_get_transform_sensitivity
+      test_get_transform_sensitivity ........................ passed in     0.158611 seconds
+   test_get_transform_sensitivity ........................... passed in     0.159350 seconds
+
+
+   test_get_vcov
+      test_get_vcov ......................................... passed in     0.667137 seconds
+   test_get_vcov ............................................ passed in     0.667881 seconds
+
+C:\Users\zqian\Documents\lib\matlab\trans\test .............. passed in     9.259738 seconds
+

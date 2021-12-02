@@ -1,0 +1,19 @@
+new;
+
+library blp;
+inputdir = "../external/lib/blp_1999/";
+load path=^inputdir;
+save path=../temp/;
+
+translate_95_to_99 = {6 1 2 5 3 4};
+/* Published BLP (1995) parameters */
+load file_contents[12,3] = ../external/data/published_param.csv;
+parm_input = file_contents[translate_95_to_99+1, 2];
+
+translate_95_to_99_mean_parm = {1 2 5 3 4};
+translate_95_to_99_mean_parm = translate_95_to_99_mean_parm+6;
+mean_parm_input = file_contents[translate_95_to_99_mean_parm+1, 2];
+
+run -r "base.prg";
+
+end;
